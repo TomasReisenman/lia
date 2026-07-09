@@ -1,8 +1,12 @@
 from google.adk.agents.llm_agent import Agent
 
+from .prompt import ROOT_AGENT_INSTRUCTION
+from .sub_agents.wikipedia_agent import wikipedia_agent
+
 root_agent = Agent(
-    model='gemini-2.5-flash',
+    model='gemini-2.5-flash-lite',
     name='root_agent',
-    description='A helpful assistant for user questions.',
-    instruction='Answer user questions to the best of your knowledge',
+    description='Agente principal que delega investigación de conceptos al agente de Wikipedia',
+    instruction=ROOT_AGENT_INSTRUCTION,
+    sub_agents=[wikipedia_agent],
 )
