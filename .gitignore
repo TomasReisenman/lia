@@ -1,1 +1,7 @@
 .env
+# Ignore the virtual environment folder
+venv/
+.venv/
+env/
+faiss_store
+.faiss_store
