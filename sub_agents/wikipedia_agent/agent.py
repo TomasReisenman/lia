@@ -6,7 +6,7 @@ from .prompt import WIKIPEDIA_AGENT_INSTRUCTION
 
 wikipedia_agent = Agent(
     name="wikipedia_agent",
-    model='gemini-2.5-flash-lite',
+    model='gemini-3.1-flash-lite',
     description="Agente especializado en aprender conceptos usando Wikipedia",
     instruction=WIKIPEDIA_AGENT_INSTRUCTION,
     tools=[

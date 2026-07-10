@@ -1,0 +1,29 @@
+{
+  "id": "mc_0001",
+  "tema": "",
+  "subtema": "",
+  "nivel_dificultad": "basico | intermedio | avanzado",
+  "tags": ["", ""],
+  "enunciado": "",
+  "opciones": [
+    {"id": "A", "texto": ""},
+    {"id": "B", "texto": ""},
+    {"id": "C", "texto": ""},
+    {"id": "D", "texto": ""}
+  ],
+  "respuesta_correcta": "A",
+  "explicacion": "",
+  "distractores_justificacion": {
+    "B": "",
+    "C": "",
+    "D": ""
+  },
+  "fuente": "",
+  "metadata": {
+    "idioma": "es",
+    "formato_pregunta": "seleccion_unica",
+    "num_opciones": 4,
+    "fecha_creacion": "",
+    "autor": ""
+  }
+}

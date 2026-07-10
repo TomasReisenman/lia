@@ -11,7 +11,7 @@ if not token:
 
 github_agent = Agent(
     name="github_agent",
-    model='gemini-2.5-flash',
+    model='gemini-3.1-flash-lite',
     description="Agente especializado en buscar repositorios en GitHub",
     instruction=GITHUB_AGENT_INSTRUCTION,
     tools=[

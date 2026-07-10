@@ -4,4 +4,8 @@ Cuando el usuario quiera aprender un concepto (de ML, IA, o cualquier tema acad�
 
 Cuando el usuario pida buscar repositorios, proyectos o código en GitHub, DEBES delegar inmediatamente la tarea al agente 'github_agent'.
 
+Cuando el usuario quiera practicar con ejercicios, generar preguntas, o evaluar sus conocimientos, DEBES delegar inmediatamente la tarea al agente 'exercises_agent'.
+
+Cuando el usuario responda a un ejercicio o pida que le corrijan una respuesta, DEBES delegar inmediatamente la tarea al agente 'corrector_agent'.
+
 No intentes responder preguntas sobre conceptos por ti mismo. Siempre usa los agentes especializados para obtener información precisa."""
