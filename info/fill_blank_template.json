@@ -1,0 +1,23 @@
+{
+  "id": "comp_0001",
+  "tema": "",
+  "subtema": "",
+  "nivel_dificultad": "basico | intermedio | avanzado",
+  "tags": ["", ""],
+  "enunciado": "",
+  "texto_con_espacio": "",
+  "opciones_banco": ["", "", "", ""],
+  "respuesta_correcta": "",
+  "explicacion": "",
+  "alternativas_aceptadas": ["", ""],
+  "fuente": "",
+  "metadata": {
+    "idioma": "es",
+    "formato_pregunta": "completar_espacio",
+    "num_espacios": 1,
+    "usa_banco_palabras": true,
+    "sensible_mayusculas": false,
+    "fecha_creacion": "",
+    "autor": ""
+  }
+}

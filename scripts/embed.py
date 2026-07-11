@@ -6,78 +6,85 @@ import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-INFO_DIR = Path(__file__).resolve().parent.parent / "info"
 FAISS_DIR = Path(__file__).resolve().parent.parent / "faiss_store"
 INDEX_PATH = FAISS_DIR / "faiss_index"
 METADATA_PATH = FAISS_DIR / "metadata.json"
 MODEL_NAME = "paraphrase-multilingual-MiniLM-L12-v2"
 
 
-TEMPLATE_SCHEMA = {
-    "multiple_choise_template": {
-        "id": "Identificador único de la pregunta (ej: mc_0001)",
-        "tema": "Tema principal del que trata la pregunta",
-        "subtema": "Subtema específico dentro del tema",
-        "nivel_dificultad": "Nivel: basico, intermedio o avanzado",
-        "tags": ["Lista de etiquetas o palabras clave"],
-        "enunciado": "Texto del enunciado de la pregunta",
-        "opciones": [
-            {"id": "Letra identificadora (A, B, C, D)", "texto": "Texto de la opción"}
-        ],
-        "respuesta_correcta": "Letra de la opción correcta (ej: A)",
-        "explicacion": "Explicación detallada de por qué esa es la respuesta correcta",
-        "distractores_justificacion": {
-            "B": "Justificación de por qué la opción B es incorrecta",
-            "C": "Justificación de por qué la opción C es incorrecta",
-            "D": "Justificación de por qué la opción D es incorrecta"
-        },
-        "fuente": "Fuente de información del contenido",
-        "metadata": {
-            "idioma": "es",
-            "formato_pregunta": "seleccion_unica",
-            "num_opciones": 4,
-            "fecha_creacion": "Fecha de creación",
-            "autor": "Nombre del autor"
-        }
-    }
-}
-
-
 def build_template_description(data: dict) -> str:
     nombre_template = data.get("id", "template")
-    formato = data.get("metadata", {}).get("formato_pregunta", "multiple_choice")
-    num_opciones = data.get("metadata", {}).get("num_opciones", 4)
+
+    def describe_value(v, indent=0):
+        prefix = "  " * indent
+        if isinstance(v, dict):
+            return "\n".join(
+                f"{prefix}  - {k}: {describe_value(v, indent + 1)}"
+                for k, v in v.items()
+            )
+        if isinstance(v, list):
+            parts = [f"{prefix}  - [{describe_value(item, indent + 1)}]" for item in v[:3]]
+            return "\n".join(parts)
+        return str(v)[:80]
 
     lines = [
         f"Template: {nombre_template}",
-        f"Tipo: {formato}",
-        f"Número de opciones: {num_opciones}",
         "",
         "Campos del template:",
     ]
-    for campo, descripcion in TEMPLATE_SCHEMA.get("multiple_choise_template", {}).items():
-        lines.append(f"  - {campo}: {descripcion}")
+    for k, v in data.items():
+        if k == "temas":
+            continue
+        lines.append(f"  - {k}: {describe_value(v)}")
 
     return "\n".join(lines)
 
 
-def load_chunks(info_dir: Path) -> list[dict]:
+def tema_chunk(tema: dict, fuente: str) -> dict:
+    text = (
+        f"Tema: {tema.get('nombre', '')}\n"
+        f"Área: {tema.get('area', '')}\n"
+        f"Nivel: {tema.get('nivel_dificultad', '')}\n"
+        f"Descripción: {tema.get('descripcion_breve', '')}\n"
+        f"Palabras clave: {', '.join(tema.get('palabras_clave', []))}\n"
+        f"Subtemas relacionados: {', '.join(tema.get('subtemas_relacionados', []))}"
+    )
+    return {
+        "text": text,
+        "metadata": {
+            "id": tema.get("id", ""),
+            "tipo": "study_topic",
+            "archivo": "study_themes",
+            "nombre": tema.get("nombre", ""),
+            "area": tema.get("area", ""),
+            "nivel": tema.get("nivel_dificultad", ""),
+            "tema": fuente,
+        },
+    }
+
+
+def load_chunks(path: Path) -> list[dict]:
+    files = sorted(path.glob("*.json")) if path.is_dir() else [path]
     chunks = []
-    for file_path in sorted(info_dir.glob("*.json")):
+    for file_path in files:
         with open(file_path, encoding="utf-8") as f:
             data = json.load(f)
-        text = build_template_description(data)
         nombre = file_path.stem
-        chunks.append({
-            "text": text,
-            "metadata": {
-                "id": data.get("id", nombre),
-                "tipo": "template",
-                "archivo": nombre,
-                "formato": data.get("metadata", {}).get("formato_pregunta", "multiple_choice"),
-                "tema": data.get("tema", ""),
-            },
-        })
+        temas_list = data.get("temas")
+        if isinstance(temas_list, list) and len(temas_list) > 0:
+            for t in temas_list:
+                chunks.append(tema_chunk(t, data.get("tema", "")))
+        else:
+            text = build_template_description(data)
+            chunks.append({
+                "text": text,
+                "metadata": {
+                    "id": data.get("id", nombre),
+                    "tipo": "template",
+                    "archivo": nombre,
+                    "tema": data.get("tema", ""),
+                },
+            })
     return chunks
 
 
@@ -102,9 +109,17 @@ def save(embeddings: np.ndarray, metadata: list[dict]) -> None:
 
 
 def main():
-    chunks = load_chunks(INFO_DIR)
+    import sys as _sys
+    if len(_sys.argv) < 2:
+        print("Usage: python embed.py <path_to_json>")
+        return
+    path = Path(_sys.argv[1])
+    if not path.exists():
+        print(f"File not found: {path}")
+        return
+    chunks = load_chunks(path)
     if not chunks:
-        print("No chunks found in info/")
+        print("No chunks found")
         return
     print(f"Loaded {len(chunks)} chunks")
     embeddings, metadata = embed(chunks)

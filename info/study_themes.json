@@ -1,0 +1,230 @@
+{
+  "id": "general_study",
+  "tema": "Temas de estudio para Aprendizaje Automático e IA",
+  "subtema": "Índice general de temas sugeridos",
+  "nivel_dificultad": "basico | intermedio | avanzado",
+  "tags": ["algebra lineal", "machine learning", "deep learning", "IA"],
+  "fuente": "",
+  "temas": [
+    {
+      "id": "tema_0001",
+      "nombre": "Vectores y operaciones básicas",
+      "area": "algebra_lineal",
+      "nivel_dificultad": "simple",
+      "descripcion_breve": "Qué es un vector, suma, resta y multiplicación por escalar, e interpretación geométrica.",
+      "requisitos_previos": [],
+      "subtemas_relacionados": ["espacio vectorial", "combinación lineal"],
+      "palabras_clave": ["vector", "escalar", "geometría", "álgebra lineal"],
+      "temas_siguientes_sugeridos": ["tema_0003"]
+    },
+    {
+      "id": "tema_0002",
+      "nombre": "Matrices y operaciones matriciales",
+      "area": "algebra_lineal",
+      "nivel_dificultad": "simple",
+      "descripcion_breve": "Definición de matriz, suma, multiplicación de matrices, transpuesta e identidad.",
+      "requisitos_previos": ["tema_0001"],
+      "subtemas_relacionados": ["multiplicación matricial", "matriz identidad", "matriz transpuesta"],
+      "palabras_clave": ["matriz", "multiplicación", "transpuesta"],
+      "temas_siguientes_sugeridos": ["tema_0004"]
+    },
+    {
+      "id": "tema_0003",
+      "nombre": "Producto punto y norma de vectores",
+      "area": "algebra_lineal",
+      "nivel_dificultad": "simple",
+      "descripcion_breve": "Cálculo del producto punto, interpretación como similitud/ángulo, y norma (magnitud) de un vector.",
+      "requisitos_previos": ["tema_0001"],
+      "subtemas_relacionados": ["similitud coseno", "norma euclidiana"],
+      "palabras_clave": ["producto punto", "norma", "similitud coseno"],
+      "temas_siguientes_sugeridos": ["tema_0006"]
+    },
+    {
+      "id": "tema_0004",
+      "nombre": "Sistemas de ecuaciones lineales",
+      "area": "algebra_lineal",
+      "nivel_dificultad": "simple",
+      "descripcion_breve": "Resolución de sistemas de ecuaciones lineales, representación matricial (Ax = b) y método de eliminación gaussiana.",
+      "requisitos_previos": ["tema_0002"],
+      "subtemas_relacionados": ["eliminación gaussiana", "matriz inversa"],
+      "palabras_clave": ["sistema de ecuaciones", "Ax=b", "eliminación gaussiana"],
+      "temas_siguientes_sugeridos": ["tema_0005"]
+    },
+    {
+      "id": "tema_0005",
+      "nombre": "Regresión lineal",
+      "area": "fundamentos_ml",
+      "nivel_dificultad": "normal",
+      "descripcion_breve": "Modelo de regresión lineal, función de costo (error cuadrático medio) y ajuste por mínimos cuadrados.",
+      "requisitos_previos": ["tema_0002", "tema_0004"],
+      "subtemas_relacionados": ["mínimos cuadrados", "error cuadrático medio"],
+      "palabras_clave": ["regresión lineal", "MSE", "predicción continua"],
+      "temas_siguientes_sugeridos": ["tema_0006"]
+    },
+    {
+      "id": "tema_0006",
+      "nombre": "Regresión logística",
+      "area": "fundamentos_ml",
+      "nivel_dificultad": "normal",
+      "descripcion_breve": "Clasificación binaria, función sigmoide, función de costo de entropía cruzada.",
+      "requisitos_previos": ["tema_0005"],
+      "subtemas_relacionados": ["función sigmoide", "entropía cruzada"],
+      "palabras_clave": ["clasificación", "sigmoide", "entropía cruzada"],
+      "temas_siguientes_sugeridos": ["tema_0007"]
+    },
+    {
+      "id": "tema_0007",
+      "nombre": "Métricas de evaluación (precisión, recall, F1)",
+      "area": "fundamentos_ml",
+      "nivel_dificultad": "normal",
+      "descripcion_breve": "Cómo evaluar un modelo de clasificación: matriz de confusión, precisión, recall, F1-score y curva ROC.",
+      "requisitos_previos": ["tema_0006"],
+      "subtemas_relacionados": ["matriz de confusión", "curva ROC", "AUC"],
+      "palabras_clave": ["precisión", "recall", "F1", "matriz de confusión"],
+      "temas_siguientes_sugeridos": ["tema_0008"]
+    },
+    {
+      "id": "tema_0008",
+      "nombre": "Overfitting y underfitting",
+      "area": "fundamentos_ml",
+      "nivel_dificultad": "normal",
+      "descripcion_breve": "Sesgo vs varianza, cómo detectar sobreajuste/subajuste y estrategias básicas para mitigarlos.",
+      "requisitos_previos": ["tema_0005"],
+      "subtemas_relacionados": ["sesgo-varianza", "curvas de aprendizaje"],
+      "palabras_clave": ["overfitting", "underfitting", "sesgo-varianza"],
+      "temas_siguientes_sugeridos": ["tema_0010"]
+    },
+    {
+      "id": "tema_0009",
+      "nombre": "Árboles de decisión y Random Forest",
+      "area": "ml_intermedio",
+      "nivel_dificultad": "intermedio",
+      "descripcion_breve": "Construcción de árboles de decisión, criterios de división (Gini, entropía) y ensambles tipo Random Forest.",
+      "requisitos_previos": ["tema_0007"],
+      "subtemas_relacionados": ["Gini", "bagging", "ensambles"],
+      "palabras_clave": ["árbol de decisión", "random forest", "bagging"],
+      "temas_siguientes_sugeridos": ["tema_0012"]
+    },
+    {
+      "id": "tema_0010",
+      "nombre": "Redes neuronales feedforward",
+      "area": "ml_intermedio",
+      "nivel_dificultad": "intermedio",
+      "descripcion_breve": "Perceptrón multicapa, funciones de activación, forward pass y backpropagation.",
+      "requisitos_previos": ["tema_0008"],
+      "subtemas_relacionados": ["backpropagation", "funciones de activación"],
+      "palabras_clave": ["red neuronal", "perceptrón", "backpropagation"],
+      "temas_siguientes_sugeridos": ["tema_0013"]
+    },
+    {
+      "id": "tema_0011",
+      "nombre": "Regularización (L1/L2)",
+      "area": "ml_intermedio",
+      "nivel_dificultad": "intermedio",
+      "descripcion_breve": "Regularización Lasso (L1) y Ridge (L2), su efecto en los pesos del modelo y en el sobreajuste.",
+      "requisitos_previos": ["tema_0008"],
+      "subtemas_relacionados": ["Lasso", "Ridge", "penalización de pesos"],
+      "palabras_clave": ["regularización", "L1", "L2", "Lasso", "Ridge"],
+      "temas_siguientes_sugeridos": ["tema_0010"]
+    },
+    {
+      "id": "tema_0012",
+      "nombre": "Validación cruzada y tuning de hiperparámetros",
+      "area": "ml_intermedio",
+      "nivel_dificultad": "intermedio",
+      "descripcion_breve": "K-fold cross-validation, grid search y random search para seleccionar hiperparámetros.",
+      "requisitos_previos": ["tema_0007"],
+      "subtemas_relacionados": ["k-fold", "grid search", "random search"],
+      "palabras_clave": ["validación cruzada", "hiperparámetros", "grid search"],
+      "temas_siguientes_sugeridos": ["tema_0011"]
+    },
+    {
+      "id": "tema_0013",
+      "nombre": "Redes neuronales convolucionales (CNN)",
+      "area": "deep_learning",
+      "nivel_dificultad": "avanzado",
+      "descripcion_breve": "Capas convolucionales, pooling, y arquitecturas CNN para visión por computadora.",
+      "requisitos_previos": ["tema_0010"],
+      "subtemas_relacionados": ["convolución", "pooling", "visión por computadora"],
+      "palabras_clave": ["CNN", "convolución", "visión por computadora"],
+      "temas_siguientes_sugeridos": ["tema_0015"]
+    },
+    {
+      "id": "tema_0014",
+      "nombre": "Redes neuronales recurrentes / LSTM",
+      "area": "deep_learning",
+      "nivel_dificultad": "avanzado",
+      "descripcion_breve": "RNN, problema del gradiente que se desvanece, y celdas LSTM/GRU para secuencias.",
+      "requisitos_previos": ["tema_0010"],
+      "subtemas_relacionados": ["LSTM", "GRU", "gradiente desvanecido"],
+      "palabras_clave": ["RNN", "LSTM", "secuencias", "series temporales"],
+      "temas_siguientes_sugeridos": ["tema_0015"]
+    },
+    {
+      "id": "tema_0015",
+      "nombre": "Transformers y mecanismos de atención",
+      "area": "deep_learning",
+      "nivel_dificultad": "avanzado",
+      "descripcion_breve": "Self-attention, arquitectura Transformer, y su rol como base de los modelos de lenguaje modernos.",
+      "requisitos_previos": ["tema_0013", "tema_0014"],
+      "subtemas_relacionados": ["self-attention", "encoder-decoder", "positional encoding"],
+      "palabras_clave": ["transformer", "atención", "self-attention"],
+      "temas_siguientes_sugeridos": ["tema_0018"]
+    },
+    {
+      "id": "tema_0016",
+      "nombre": "Aprendizaje por refuerzo",
+      "area": "deep_learning",
+      "nivel_dificultad": "avanzado",
+      "descripcion_breve": "Agentes, entornos, recompensas, política y valor; introducción a Q-learning y políticas basadas en gradiente.",
+      "requisitos_previos": ["tema_0010"],
+      "subtemas_relacionados": ["Q-learning", "política", "recompensa"],
+      "palabras_clave": ["aprendizaje por refuerzo", "agente", "recompensa", "Q-learning"],
+      "temas_siguientes_sugeridos": ["tema_0019"]
+    },
+    {
+      "id": "tema_0017",
+      "nombre": "Modelos de difusión",
+      "area": "ia_avanzada",
+      "nivel_dificultad": "experto",
+      "descripcion_breve": "Proceso de difusión hacia adelante y reverso, generación de imágenes mediante denoising progresivo.",
+      "requisitos_previos": ["tema_0013"],
+      "subtemas_relacionados": ["denoising", "generación de imágenes", "modelos generativos"],
+      "palabras_clave": ["diffusion models", "generación de imágenes", "denoising"],
+      "temas_siguientes_sugeridos": []
+    },
+    {
+      "id": "tema_0018",
+      "nombre": "Fine-tuning y LoRA en LLMs",
+      "area": "ia_avanzada",
+      "nivel_dificultad": "experto",
+      "descripcion_breve": "Ajuste fino de modelos de lenguaje grandes, técnicas de fine-tuning eficiente como LoRA y adaptadores.",
+      "requisitos_previos": ["tema_0015"],
+      "subtemas_relacionados": ["LoRA", "adaptadores", "fine-tuning eficiente"],
+      "palabras_clave": ["fine-tuning", "LoRA", "LLM", "adaptadores"],
+      "temas_siguientes_sugeridos": ["tema_0019"]
+    },
+    {
+      "id": "tema_0019",
+      "nombre": "RLHF y alineación de modelos",
+      "area": "ia_avanzada",
+      "nivel_dificultad": "experto",
+      "descripcion_breve": "Aprendizaje por refuerzo con retroalimentación humana, modelos de recompensa y alineación de LLMs.",
+      "requisitos_previos": ["tema_0016", "tema_0018"],
+      "subtemas_relacionados": ["modelo de recompensa", "alineación", "PPO"],
+      "palabras_clave": ["RLHF", "alineación", "modelo de recompensa"],
+      "temas_siguientes_sugeridos": ["tema_0020"]
+    },
+    {
+      "id": "tema_0020",
+      "nombre": "Escalado y arquitecturas Mixture of Experts (MoE)",
+      "area": "ia_avanzada",
+      "nivel_dificultad": "experto",
+      "descripcion_breve": "Leyes de escalado de modelos, routing de tokens y arquitecturas Mixture of Experts para eficiencia en modelos grandes.",
+      "requisitos_previos": ["tema_0015"],
+      "subtemas_relacionados": ["scaling laws", "routing", "sparse models"],
+      "palabras_clave": ["MoE", "scaling laws", "mixture of experts"],
+      "temas_siguientes_sugeridos": []
+    }
+  ]
+}
