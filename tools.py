@@ -1,4 +1,7 @@
 import json
+import re
+import urllib.request
+from html.parser import HTMLParser
 from pathlib import Path
 
 import faiss
@@ -88,4 +91,74 @@ def get_exercise_data(tool_context: ToolContext) -> dict:
         "options": tool_context.state.get("exercise_options", ""),
         "correct_answer": tool_context.state.get("exercise_correct_answer", ""),
         "explanation": tool_context.state.get("exercise_explanation", ""),
+    }
+
+
+class _HTMLStripper(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self._text: list[str] = []
+        self._skip = False
+
+    def handle_starttag(self, tag, attrs):
+        if tag in ("script", "style"):
+            self._skip = True
+
+    def handle_endtag(self, tag):
+        if tag in ("script", "style"):
+            self._skip = False
+
+    def handle_data(self, data):
+        if not self._skip:
+            self._text.append(data)
+
+    def get_text(self) -> str:
+        return re.sub(r'\s+', ' ', ' '.join(self._text)).strip()
+
+
+def fetch_url(url: str) -> str:
+    """Fetch the content of a URL and return it as plain text.
+
+    Args:
+        url: The URL to fetch (must start with http:// or https://)
+
+    Returns:
+        The text content of the URL with HTML tags stripped
+    """
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        raw = resp.read().decode("utf-8", errors="replace")
+    stripper = _HTMLStripper()
+    stripper.feed(raw)
+    text = stripper.get_text()
+    max_chars = 8000
+    if len(text) > max_chars:
+        text = text[:max_chars] + "\n\n[Contenido truncado...]"
+    return text
+
+
+def save_summary(url: str, title: str, summary: str, tool_context: ToolContext) -> dict:
+    """Save a URL summary to session state for later use by other agents.
+
+    Args:
+        url: The original URL
+        title: Title of the page
+        summary: The summary text
+    """
+    tool_context.state["last_url"] = url
+    tool_context.state["last_url_title"] = title
+    tool_context.state["last_url_summary"] = summary
+    return {"status": "saved"}
+
+
+def get_summary(tool_context: ToolContext) -> dict:
+    """Get the last saved URL summary from session state.
+
+    Returns:
+        dict with url, title, summary
+    """
+    return {
+        "url": tool_context.state.get("last_url", ""),
+        "title": tool_context.state.get("last_url_title", ""),
+        "summary": tool_context.state.get("last_url_summary", ""),
     }
