@@ -1,43 +1,610 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-		/>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Lia — Asistente Educativo Personalizado</title>
+  <link rel="stylesheet" href="dist/reset.css" />
+  <link rel="stylesheet" href="dist/reveal.css" />
+  <link rel="stylesheet" href="dist/theme/black.css" />
+  <link rel="stylesheet" href="dist/plugin/highlight/monokai.css" />
+  <style>
+    .reveal { font-size: 28px; }
+    .reveal h2 { font-size: 1.2em; margin-bottom: 0.3em; }
+    .reveal h3 { font-size: 1em; margin-bottom: 0.25em; }
+    .reveal h4 { font-size: 0.85em; margin-bottom: 0.15em; }
+    .reveal p { font-size: 0.65em; margin: 0.2em 0; }
+    .reveal li { font-size: 0.6em; margin: 0.08em 0; }
+    .reveal ul, .reveal ol { margin: 0.15em 0; }
+    .reveal pre { margin: 0.2em 0; }
+    .reveal section img { margin: 0; }
+    .reveal code { font-size: 0.85em; }
+    .logo { font-size: 2em; font-weight: 900; letter-spacing: 0.05em; }
+    .logo span { color: #64b5f6; }
+    .subtitle { color: #90caf9; margin-top: 0.2em; font-size: 0.7em; }
+    .agent-card {
+      background: #1e1e2e; border-radius: 8px; padding: 0.35em 0.6em;
+      border-left: 3px solid #64b5f6; margin: 0.2em 0;
+    }
+    .agent-card h4 { color: #64b5f6; margin: 0; font-size: 0.75em; }
+    .agent-card p { margin: 0; font-size: 0.55em; color: #ccc; }
+    .flow-arrow { color: #64b5f6; font-size: 0.9em; margin: 0.08em 0; }
+    .tag {
+      display: inline-block; padding: 1px 6px; border-radius: 4px;
+      font-size: 0.55em; font-weight: 700; margin: 1px;
+    }
+    .tag-mcp   { background: #2e7d32; color: #fff; }
+    .tag-rag   { background: #1565c0; color: #fff; }
+    .tag-ses   { background: #6a1b9a; color: #fff; }
+    .tag-tool  { background: #e65100; color: #fff; }
+    .diagram-box {
+      display: flex; flex-direction: column; align-items: center;
+      background: #1a1a2e; border-radius: 8px; padding: 0.4em 0.6em; margin: 0.2em 0;
+    }
+    .diagram-row {
+      display: flex; align-items: center; justify-content: center; gap: 0.4em; flex-wrap: wrap;
+    }
+    .diagram-node {
+      background: #16213e; border: 1.5px solid #0f3460; border-radius: 6px;
+      padding: 0.2em 0.5em; text-align: center; min-width: 65px; font-size: 0.55em;
+    }
+    .diagram-node.highlight { border-color: #64b5f6; background: #1a2744; }
+    .diagram-node.root     { border-color: #ffb74d; background: #2a1f0a; }
+    .diagram-arrow { color: #64b5f6; font-size: 1.1em; }
+    pre.code { font-size: 0.45em; line-height: 1.15; }
+    .slide-title { color: #64b5f6; }
+    .emoji-big { font-size: 2em; display: block; margin-bottom: 0.1em; }
+    .columns { display: flex; gap: 0.5em; justify-content: center; }
+    .columns > div { flex: 1; }
+    .reveal table { font-size: 0.6em; }
+    .reveal td, .reveal th { padding: 0.15em 0.3em; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
 
-		<title>reveal.js</title>
+<!-- ==================== TITLE ==================== -->
+<section data-background-gradient="linear-gradient(135deg, #0a0a23, #1a1a3e)">
+  <div class="logo">L<span>i</span>a</div>
+  <p class="subtitle"><strong>L</strong>ecturas para <strong>I</strong><strong>a</strong></p>
+  <h3 style="color:#e0e0e0; margin-top:0.5em;">Asistente Educativo Personalizado</h3>
+  <p style="color:#888; margin-top:2em;">Sistema multi-agente de estudio asistido por IA</p>
+  <p style="color:#555; font-size:0.7em;">Construido con Google ADK · FAISS · MCP</p>
+</section>
 
-		<link rel="stylesheet" href="dist/reset.css" />
-		<link rel="stylesheet" href="dist/reveal.css" />
-		<link rel="stylesheet" href="dist/theme/black.css" />
+<!-- ==================== WHAT IS LIA ==================== -->
+<section>
+  <h2 class="slide-title">¿Qué es Lia?</h2>
+  <p style="font-size:0.65em;">Sistema multi-agente que combina Wikipedia, GitHub, URLs, ejercicios y recomendación de temas para aprendizaje de IA/ML.</p>
+  <div class="diagram-box" style="margin-top:0.3em;">
+    <div style="font-size:0.85em; color:#90caf9;">Flujo de conversación</div>
+    <div class="diagram-row" style="gap:0.3em;">
+      <div class="diagram-node root" style="border-color:#ffb74d; min-width:60px;">🧑 Usuario</div>
+      <div class="diagram-arrow" style="font-size:0.9em;">→</div>
+      <div class="diagram-node root" style="border-color:#ffb74d; min-width:80px;">🤖 Root</div>
+      <div class="diagram-arrow" style="font-size:0.9em;">→</div>
+      <div class="diagram-node highlight" style="min-width:70px;">🔧 Sub-agente</div>
+      <div class="diagram-arrow" style="font-size:0.9em;">→</div>
+      <div class="diagram-node root" style="border-color:#ffb74d; min-width:80px;">🤖 Root</div>
+      <div class="diagram-arrow" style="font-size:0.9em;">→</div>
+      <div class="diagram-node highlight" style="min-width:70px;">🔧 Sub-agente</div>
+    </div>
+    <p style="color:#666; font-size:0.5em; margin-top:0.2em;">Root Agent orquesta y delega según la intención del usuario</p>
+  </div>
+</section>
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="dist/plugin/highlight/monokai.css" />
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+<!-- ==================== ARCHITECTURE OVERVIEW ==================== -->
+<section>
+  <section>
+    <h2 class="slide-title">Arquitectura General</h2>
+    <div class="diagram-box" style="padding:0.4em 0.6em;">
+      <div class="diagram-node root" style="min-width:120px; margin-bottom:0.3em; border-color:#ffb74d;">
+        <strong style="color:#ffb74d; font-size:0.75em;">🧠 Root Agent</strong><br/>
+        <span style="color:#aaa; font-size:0.5em;">Orquestador</span>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.3em; justify-content:center;">
+        <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">📖 Wikipedia</div>
+        <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">🐙 GitHub</div>
+        <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">📝 Ejercicios</div>
+        <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">✅ Corrector</div>
+        <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">🔗 URL Reader</div>
+        <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">🎯 Study Advisor</div>
+      </div>
+      <div style="display:flex; gap:0.8em; margin-top:0.3em; flex-wrap:wrap; justify-content:center; font-size:0.5em;">
+        <span><span class="tag tag-mcp" style="font-size:0.7em;">MCP</span> Wikipedia · GitHub</span>
+        <span><span class="tag tag-rag" style="font-size:0.7em;">RAG</span> FAISS + Sentence‑Transformers</span>
+        <span><span class="tag tag-ses" style="font-size:0.7em;">Estado</span> ToolContext session</span>
+      </div>
+    </div>
+  </section>
 
-		<script src="dist/reveal.js"></script>
-		<script src="dist/plugin/notes.js"></script>
-		<script src="dist/plugin/markdown.js"></script>
-		<script src="dist/plugin/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+  <section>
+    <h3 class="slide-title" style="margin-bottom:0.2em;">Infraestructura Compartida</h3>
+    <div class="columns" style="gap:0.4em; margin:0;">
+      <div>
+        <h4 style="color:#81c784; font-size:0.75em; margin:0 0 0.2em;">🔍 FAISS + RAG</h4>
+        <ul style="font-size:0.5em; margin:0; line-height:1.3;">
+          <li><code>paraphrase-multilingual-MiniLM-L12-v2</code></li>
+          <li>Embeddings normalizados · inner product</li>
+          <li>22 vectores: 2 templates + 20 temas</li>
+          <li>Usado por: exercises_agent, study_advisor_agent</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:#ffb74d; font-size:0.75em; margin:0 0 0.2em;">📦 Session State</h4>
+        <ul style="font-size:0.5em; margin:0; line-height:1.3;">
+          <li><code>ToolContext.state</code> → dict persistente</li>
+          <li>exercise_title, correct_answer...</li>
+          <li>last_url, last_url_summary...</li>
+          <li>Comunicación exercises ↔ corrector<br/>y url_reader ↔ exercises</li>
+        </ul>
+      </div>
+    </div>
+    <pre class="code" style="margin:0.2em 0;"><code class="python">def search_templates(query, k=3)  # FAISS similarity search
+def save_exercise_data(title, question, options, correct, explanation)
+def get_exercise_data()            # retrieve for correction
+def fetch_url(url)                 # HTML → plain text
+def save_summary(url, title, summary)
+def get_summary()                  # retrieve for exercises</code></pre>
+  </section>
+</section>
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
-			});
-		</script>
-	</body>
+<!-- ==================== ROOT AGENT ==================== -->
+<section>
+  <h2 class="slide-title" style="margin-bottom:0.2em;">🤖 Root Agent</h2>
+  <div class="agent-card" style="padding:0.3em 0.6em;">
+    <h4 style="font-size:0.8em;">root_agent</h4>
+    <p style="font-size:0.55em; color:#aaa;">gemini-3.1-flash-lite · Orquestador principal</p>
+  </div>
+  <p style="font-size:0.55em; margin:0.2em 0;">Delega al sub-agente especializado según la intención detectada.</p>
+  <div style="display:flex; flex-direction:column; gap:0.1em; margin:0.2em 0; font-size:0.5em;">
+    <div>🗣️ <em>"explícame redes neuronales"</em> → <span class="tag tag-mcp">Wikipedia</span></div>
+    <div>🗣️ <em>"busca proyectos transformers en GitHub"</em> → <span class="tag tag-mcp">GitHub</span></div>
+    <div>🗣️ <em>"hazme un ejercicio de ML"</em> → <span class="tag tag-rag">Ejercicios</span></div>
+    <div>🗣️ <em>"mi respuesta es B"</em> → <span class="tag tag-ses">Corrector</span></div>
+    <div>🗣️ <em>"qué debería estudiar?"</em> → <span class="tag tag-rag">Study Advisor</span></div>
+    <div>🗣️ <em>"https://..."</em> → <span class="tag tag-tool">URL Reader</span></div>
+  </div>
+  <pre class="code" style="margin:0.2em 0;"><code class="python">root_agent = Agent(
+    model='gemini-3.1-flash-lite',
+    name='root_agent',
+    sub_agents=[wiki, github, exercises,
+                corrector, study_advisor, url_reader],
+)</code></pre>
+</section>
+
+<!-- ==================== WIKIPEDIA AGENT ==================== -->
+<section>
+  <section>
+    <h2 class="slide-title">📖 Wikipedia Agent</h2>
+    <div class="agent-card">
+      <h4>wikipedia_agent</h4>
+      <p style="font-size:0.75em; color:#aaa;">MCP · <code>wikipedia-mcp --language es</code></p>
+    </div>
+    <p style="font-size:0.75em;">Investiga conceptos académicos usando la API de Wikipedia en español. Nunca responde con conocimiento propio — siempre usa las herramientas MCP.</p>
+    <div class="columns" style="margin-top:0.8em;">
+      <div>
+        <h4 style="color:#81c784;">Herramientas MCP</h4>
+        <ul style="font-size:0.65em; line-height:1.5;">
+          <li><code>search_wikipedia</code></li>
+          <li><code>get_article</code></li>
+          <li><code>get_summary</code></li>
+          <li><code>get_sections</code></li>
+          <li><code>get_related_topics</code></li>
+          <li><code>extract_key_facts</code></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:#ffb74d;">Flujo</h4>
+        <ol style="font-size:0.65em; line-height:1.5;">
+          <li>Buscar el concepto</li>
+          <li>Refinar si es necesario</li>
+          <li>Leer artículo completo</li>
+          <li>Resumir en español</li>
+        </ol>
+      </div>
+    </div>
+    <pre class="code" style="margin-top:0.8em;"><code class="python">McpToolset(
+    connection_params=StdioConnectionParams(
+        server_params=StdioServerParameters(
+            command="wikipedia-mcp",
+            args=["--language", "es"],
+        ),
+    ),
+)</code></pre>
+  </section>
+
+  <section>
+    <h3 class="slide-title">Flujo de aprendizaje con Wikipedia</h3>
+    <div class="diagram-box">
+      <div class="diagram-row">
+        <div class="diagram-node root">🧑 Usuario</div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node root" style="border-color:#ffb74d;">🤖 Root</div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node highlight">📖 Wikipedia</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div style="color:#aaa; font-size:0.7em; background:#1a1a2e; padding:0.5em; border-radius:8px;">
+        <code>search_wikipedia("redes neuronales")</code> →
+        <code>get_article("Red neuronal artificial")</code> →
+        resumen en español
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="diagram-row">
+        <div class="diagram-node root" style="border-color:#ffb74d;">🤖 Root</div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node root">🧑 Usuario</div>
+      </div>
+    </div>
+    <p style="font-size:0.7em;">Ejemplo: <em>"Explícame qué son las redes convolucionales"</em></p>
+  </section>
+</section>
+
+<!-- ==================== GITHUB AGENT ==================== -->
+<section>
+  <section>
+    <h2 class="slide-title">🐙 GitHub Agent</h2>
+    <div class="agent-card" style="padding:0.3em 0.6em;">
+      <h4>github_agent</h4>
+      <p style="font-size:0.65em; color:#aaa;">MCP · StreamableHTTP · <code>GH_TOKEN</code></p>
+    </div>
+    <p style="font-size:0.6em;">Busca repositorios, proyectos y código en GitHub usando el MCP de Copilot. Autenticado via <code>GH_TOKEN</code>.</p>
+    <pre class="code"><code class="python">connection_params = StreamableHttpConnectionParams(
+    url="https://api.githubcopilot.com/mcp/",
+    headers={"Authorization": f"Bearer {os.getenv('GH_TOKEN')}"},
+)</code></pre>
+    <div style="font-size:0.6em;">
+      <strong>Respuesta típica:</strong> nombre del repo, descripción, ⭐ estrellas, URL
+    </div>
+  </section>
+
+  <section>
+    <h3 class="slide-title">Flujo de búsqueda en GitHub</h3>
+    <div class="diagram-box">
+      <div class="diagram-row">
+        <div class="diagram-node root">🧑 Usuario</div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node root" style="border-color:#ffb74d;">🤖 Root</div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node highlight">🐙 GitHub</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="diagram-node" style="background:#1a1a2e; border:1px solid #333;">
+        <span style="font-size:0.7em;">🔗 api.githubcopilot.com/mcp/</span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div style="font-size:0.65em; color:#aaa;">Resultados: repo, descripción, ⭐, URL</div>
+    </div>
+  </section>
+</section>
+
+<!-- ==================== EXERCISES AGENT ==================== -->
+<section>
+  <section>
+    <h2 class="slide-title">📝 Exercises Agent</h2>
+    <div class="agent-card" style="padding:0.2em 0.4em;">
+      <h4>exercises_agent</h4>
+      <p style="font-size:0.5em; color:#aaa;">RAG + Session State · Templates</p>
+    </div>
+    <p style="font-size:0.5em; margin:0.1em 0;">Genera ejercicios usando plantillas en FAISS. Puede basarse en resúmenes de URLs previos.</p>
+    <div class="columns" style="gap:0.3em; margin:0;">
+      <div>
+        <h4 style="color:#81c784; font-size:0.6em; margin:0 0 0.1em;">Herramientas</h4>
+        <ul style="font-size:0.45em; margin:0;">
+          <li><code>search_templates</code> — FAISS</li>
+          <li><code>save_exercise_data</code> — sesión</li>
+          <li><code>get_summary</code> — URL previa</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:#ffb74d; font-size:0.6em; margin:0 0 0.1em;">Templates</h4>
+        <ul style="font-size:0.45em; margin:0;">
+          <li>📋 Multiple choice</li>
+          <li>✏️ Fill the blank</li>
+          <li>🧩 20 temas IA/ML</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3 class="slide-title" style="margin-bottom:0.1em;">Flujo exercises + corrector</h3>
+    <div class="diagram-box" style="padding:0.2em 0.4em;">
+      <div class="diagram-row" style="gap:0.2em;">
+        <div class="diagram-node root" style="min-width:50px;">🧑 Usuario</div>
+        <div class="diagram-arrow" style="font-size:0.8em;">→</div>
+        <div class="diagram-node root" style="border-color:#ffb74d; min-width:55px;">🤖 Root</div>
+        <div class="diagram-arrow" style="font-size:0.8em;">→</div>
+        <div class="diagram-node highlight" style="border-color:#81c784; min-width:60px;">📝 Ejercicios</div>
+      </div>
+      <div style="display:flex; gap:0.3em; margin:0.1em 0; font-size:0.45em; flex-wrap:wrap; justify-content:center;">
+        <span class="tag tag-rag">search_templates</span>
+        <span class="tag tag-ses">save_exercise_data</span>
+      </div>
+      <div class="flow-arrow" style="font-size:0.7em;">↓</div>
+      <div style="color:#aaa; font-size:0.45em; background:#1a1a2e; padding:0.1em 0.4em; border-radius:4px; line-height:1.2;">
+        "Escribe RESPUESTA: seguido de tu opción"
+      </div>
+      <div class="flow-arrow" style="font-size:0.7em;">↓</div>
+      <div class="diagram-row" style="gap:0.2em;">
+        <div class="diagram-node root" style="min-width:60px;">🧑 RESPUESTA: B</div>
+        <div class="diagram-arrow" style="font-size:0.8em;">→</div>
+        <div class="diagram-node root" style="border-color:#ffb74d; min-width:55px;">🤖 Root</div>
+        <div class="diagram-arrow" style="font-size:0.8em;">→</div>
+        <div class="diagram-node highlight" style="border-color:#ce93d8; min-width:60px;">✅ Corrector</div>
+      </div>
+      <div style="display:flex; gap:0.3em; margin:0.1em 0; font-size:0.45em; flex-wrap:wrap; justify-content:center;">
+        <span class="tag tag-ses">get_exercise_data</span>
+      </div>
+      <div class="flow-arrow" style="font-size:0.7em;">↓</div>
+      <div style="color:#81c784; font-size:0.5em;">"¡Correcto! 🎉 ..." o "La respuesta era A porque..."</div>
+    </div>
+  </section>
+
+  <section>
+    <h3 class="slide-title" style="margin-bottom:0.1em;">URL → Ejercicio</h3>
+    <div class="diagram-box" style="padding:0.2em 0.4em;">
+      <div class="diagram-row" style="gap:0.2em;">
+        <div class="diagram-node root" style="min-width:50px;">🧑 https://...</div>
+        <div class="diagram-arrow" style="font-size:0.8em;">→</div>
+        <div class="diagram-node root" style="border-color:#ffb74d; min-width:55px;">🤖 Root</div>
+        <div class="diagram-arrow" style="font-size:0.8em;">→</div>
+        <div class="diagram-node highlight" style="border-color:#4fc3f7; min-width:60px;">🔗 URL Reader</div>
+      </div>
+      <div style="font-size:0.45em; color:#aaa; margin:0.1em;">
+        <code>fetch_url()</code> → resumen → <code>save_summary()</code>
+      </div>
+      <div class="flow-arrow" style="font-size:0.7em;">↓</div>
+      <div class="diagram-row" style="gap:0.2em;">
+        <div class="diagram-node root" style="min-width:60px;">🧑 hazme ejercicio</div>
+        <div class="diagram-arrow" style="font-size:0.8em;">→</div>
+        <div class="diagram-node highlight" style="border-color:#81c784; min-width:60px;">📝 Ejercicios</div>
+      </div>
+      <div style="font-size:0.45em; color:#aaa; margin:0.1em;">
+        <code>get_summary()</code> → <code>search_templates()</code> → <code>save_exercise_data()</code>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ==================== CORRECTOR AGENT ==================== -->
+<section>
+  <h2 class="slide-title" style="margin-bottom:0.15em;">✅ Corrector Agent</h2>
+  <div class="agent-card" style="padding:0.2em 0.4em;">
+    <h4>corrector_agent</h4>
+    <p style="font-size:0.5em; color:#aaa;">Session State · Comparación de respuestas</p>
+  </div>
+  <p style="font-size:0.5em; margin:0.1em 0;">Lee el ejercicio guardado por exercises_agent, compara la respuesta y da retroalimentación.</p>
+  <pre class="code"><code class="python">def get_exercise_data(tool_context):
+    return {
+        "title": tool_context.state.get("exercise_title"),
+        "question": tool_context.state.get("exercise_question"),
+        "options": tool_context.state.get("exercise_options"),
+        "correct_answer": tool_context.state.get("exercise_correct_answer"),
+        "explanation": tool_context.state.get("exercise_explanation"),
+    }</code></pre>
+  <p style="font-size:0.45em; color:#aaa; margin:0.1em 0;"><strong>Flujo:</strong> respuesta usuario → <code>get_exercise_data()</code> → compara → feedback</p>
+</section>
+
+<!-- ==================== URL READER AGENT ==================== -->
+<section>
+  <section>
+    <h2 class="slide-title">🔗 URL Reader Agent</h2>
+    <div class="agent-card">
+      <h4>url_reader_agent</h4>
+      <p style="font-size:0.75em; color:#aaa;">urllib · HTML Stripper · Session State</p>
+    </div>
+    <p style="font-size:0.75em;">Toma cualquier URL, obtiene su contenido HTML, lo limpia de etiquetas y devuelve un resumen estructurado en español.</p>
+    <pre class="code" style="margin-top:0.8em;"><code class="python">def fetch_url(url: str) -> str:
+    # HTTP GET → decode utf-8 → strip HTML
+    # → max 8000 chars → plain text
+
+def save_summary(url, title, summary, tool_context):
+    tool_context.state["last_url"] = url
+    tool_context.state["last_url_title"] = title
+    tool_context.state["last_url_summary"] = summary</code></pre>
+  </section>
+
+  <section>
+    <h3 class="slide-title">Procesamiento de HTML</h3>
+    <pre class="code"><code class="python">class _HTMLStripper(HTMLParser):
+    def handle_starttag(self, tag, attrs):
+        if tag in ("script", "style"):
+            self._skip = True
+    def handle_data(self, data):
+        if not self._skip:
+            self._text.append(data)
+    def get_text(self):
+        return re.sub(r'\s+', ' ', ' '.join(self._text)).strip()</code></pre>
+    <p style="margin-top:0.5em; font-size:0.7em;">Excluye <code>&lt;script&gt;</code> y <code>&lt;style&gt;</code>, normaliza espacios, trunca a 8000 caracteres.</p>
+  </section>
+</section>
+
+<!-- ==================== STUDY ADVISOR AGENT ==================== -->
+<section>
+  <section>
+    <h2 class="slide-title">🎯 Study Advisor Agent</h2>
+    <div class="agent-card">
+      <h4>study_advisor_agent</h4>
+      <p style="font-size:0.75em; color:#aaa;">RAG · FAISS · Recomendación de temas</p>
+    </div>
+    <p style="font-size:0.75em;">Recomienda temas de estudio en IA/ML usando búsqueda semántica sobre <code>info/study_themes.json</code> (20 temas indexados).</p>
+    <div style="display:flex; flex-wrap:wrap; gap:0.3em; margin:0.5em 0; justify-content:center; font-size:0.6em;">
+      <span class="tag" style="background:#1565c0;">🧠 Redes Neuronales</span>
+      <span class="tag" style="background:#1565c0;">📊 Aprendizaje Supervisado</span>
+      <span class="tag" style="background:#1565c0;">🤖 NLP</span>
+      <span class="tag" style="background:#1565c0;">👁️ Visión Artificial</span>
+      <span class="tag" style="background:#1565c0;">📈 Árboles de Decisión</span>
+      <span class="tag" style="background:#1565c0;">... 15 más</span>
+    </div>
+    <p style="font-size:0.7em;">Cada tema contiene: nombre, área, nivel de dificultad, descripción, palabras clave y subtemas relacionados.</p>
+  </section>
+
+  <section>
+    <h3 class="slide-title">Navegación de temas</h3>
+    <div class="diagram-box">
+      <div class="diagram-row">
+        <div class="diagram-node root">🧑 ¿Qué estudiar?</div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node highlight" style="border-color:#ffb74d;">🎯 Study Advisor</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div style="font-size:0.65em; color:#aaa;">
+        <code>search_templates("aprendizaje automático")</code>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div style="background:#1a1a2e; padding:0.5em; border-radius:8px; font-size:0.6em; text-align:left; line-height:1.6;">
+        <strong style="color:#64b5f6;">🔍 Resultados:</strong><br/>
+        📘 <strong>Regresión Lineal</strong> · Estadística · Principiante<br/>
+        📘 <strong>Árboles de Decisión</strong> · ML Clásico · Intermedio<br/>
+        📘 <strong>Redes Neuronales</strong> · Deep Learning · Avanzado<br/>
+        <span style="color:#888;">+ subtemas relacionados, palabras clave, descripción</span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div style="color:#aaa; font-size:0.65em;">
+        "Te recomiendo empezar con Regresión Lineal. ¿Quieres que busque información en Wikipedia?"
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ==================== DATA FLOW DIAGRAM ==================== -->
+<section>
+  <section>
+    <h2 class="slide-title" style="margin-bottom:0.15em;">🔄 Flujo Completo</h2>
+    <div class="diagram-box" style="padding:0.25em 0.4em;">
+      <div class="diagram-row" style="gap:0.2em;">
+        <div class="diagram-node root" style="min-width:55px; border-color:#ffb74d;">🧑 Usuario</div>
+        <div class="diagram-arrow" style="font-size:0.8em;">⇄</div>
+        <div class="diagram-node root" style="min-width:70px; border-color:#ffb74d; background:#2a1f0a;">🤖 Root</div>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.2em; justify-content:center; margin-top:0.2em;">
+        <div class="diagram-node highlight" style="min-width:60px; font-size:0.45em;">📖 Wikipedia<br/><span class="tag tag-mcp" style="font-size:0.7em;">MCP</span></div>
+        <div class="diagram-node highlight" style="min-width:60px; font-size:0.45em;">🐙 GitHub<br/><span class="tag tag-mcp" style="font-size:0.7em;">MCP</span></div>
+        <div class="diagram-node highlight" style="min-width:60px; font-size:0.45em;">📝 Ejercicios<br/><span class="tag tag-rag" style="font-size:0.7em;">RAG</span></div>
+        <div class="diagram-node highlight" style="min-width:60px; font-size:0.45em;">✅ Corrector<br/><span class="tag tag-ses" style="font-size:0.7em;">Estado</span></div>
+        <div class="diagram-node highlight" style="min-width:60px; font-size:0.45em;">🔗 URL Reader<br/><span class="tag tag-tool" style="font-size:0.7em;">HTTP</span></div>
+        <div class="diagram-node highlight" style="min-width:60px; font-size:0.45em;">🎯 Study Advisor<br/><span class="tag tag-rag" style="font-size:0.7em;">RAG</span></div>
+      </div>
+      <div style="display:flex; gap:0.5em; margin-top:0.2em; font-size:0.4em; color:#888; flex-wrap:wrap; justify-content:center;">
+        <span>↕️ Session State (ToolContext)</span>
+        <span>↕️ FAISS Index (22 vectores)</span>
+        <span>↕️ MCP Servers (stdio · HTTP)</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3 class="slide-title">Mapa de Herramientas por Agente</h3>
+    <table style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr style="border-bottom:1px solid #444;">
+          <th style="padding:0.15em 0.3em; text-align:left;">Agente</th>
+          <th style="padding:0.15em 0.3em; text-align:left;">Herramientas</th>
+          <th style="padding:0.15em 0.3em; text-align:left;">Conexión</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding:0.15em 0.3em;">📖 Wikipedia</td><td style="padding:0.15em 0.3em;"><code>search</code>, <code>get_article</code>, <code>get_summary</code>, <code>get_sections</code>, <code>get_related_topics</code>, <code>extract_key_facts</code></td><td style="padding:0.15em 0.3em;"><span class="tag tag-mcp">MCP stdio</span></td></tr>
+        <tr><td style="padding:0.15em 0.3em;">🐙 GitHub</td><td style="padding:0.15em 0.3em;">search repos, code, issues, PRs</td><td style="padding:0.15em 0.3em;"><span class="tag tag-mcp">MCP HTTP</span></td></tr>
+        <tr><td style="padding:0.15em 0.3em;">📝 Ejercicios</td><td style="padding:0.15em 0.3em;"><code>search_templates</code>, <code>save_exercise_data</code>, <code>get_summary</code></td><td style="padding:0.15em 0.3em;"><span class="tag tag-rag">FAISS</span> + <span class="tag tag-ses">Estado</span></td></tr>
+        <tr><td style="padding:0.15em 0.3em;">✅ Corrector</td><td style="padding:0.15em 0.3em;"><code>get_exercise_data</code></td><td style="padding:0.15em 0.3em;"><span class="tag tag-ses">Estado</span></td></tr>
+        <tr><td style="padding:0.15em 0.3em;">🔗 URL Reader</td><td style="padding:0.15em 0.3em;"><code>fetch_url</code>, <code>save_summary</code></td><td style="padding:0.15em 0.3em;"><span class="tag tag-tool">HTTP</span> + <span class="tag tag-ses">Estado</span></td></tr>
+        <tr><td style="padding:0.15em 0.3em;">🎯 Study Advisor</td><td style="padding:0.15em 0.3em;"><code>search_templates</code></td><td style="padding:0.15em 0.3em;"><span class="tag tag-rag">FAISS</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+</section>
+
+<!-- ==================== TECH STACK ==================== -->
+<section>
+  <h2 class="slide-title" style="margin-bottom:0.15em;">⚙️ Stack Tecnológico</h2>
+  <div class="columns" style="gap:0.4em;">
+    <div>
+      <h4 style="color:#81c784; font-size:0.7em; margin:0 0 0.1em;">Framework</h4>
+      <ul style="font-size:0.55em; margin:0;">
+        <li>Google <strong>ADK</strong> (Agent Dev Kit)</li>
+        <li>Gemini 3.1 Flash Lite</li>
+        <li>Arquitectura multi-agente</li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:#ffb74d; font-size:0.7em; margin:0 0 0.1em;">ML / RAG</h4>
+      <ul style="font-size:0.55em; margin:0;">
+        <li><strong>FAISS</strong> (búsqueda vectorial)</li>
+        <li><strong>Sentence‑Transformers</strong></li>
+        <li><code>paraphrase-multilingual</code>, 384d</li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:#4fc3f7; font-size:0.7em; margin:0 0 0.1em;">MCP</h4>
+      <ul style="font-size:0.55em; margin:0;">
+        <li><code>wikipedia-mcp</code> (Python)</li>
+        <li>GitHub Copilot MCP (HTTP)</li>
+        <li>Stdio / StreamableHTTP</li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:#ce93d8; font-size:0.7em; margin:0 0 0.1em;">Entorno</h4>
+      <ul style="font-size:0.55em; margin:0;">
+        <li>Python 3.11</li>
+        <li>python-dotenv, Windows</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== HOW TO RUN ==================== -->
+<section>
+  <h2 class="slide-title">🚀 Cómo ejecutar</h2>
+  <pre class="code"><code class="bash"># 1. Instalar dependencias
+pip install -r requirements.txt
+
+# 2. Configurar variables de entorno (.env)
+GH_TOKEN=ghp_...
+HF_TOKEN=hf_...
+
+# 3. Inicializar FAISS (si no existe)
+python scripts/embed.py info/
+
+# 4. Ejecutar la aplicación adk
+adk run lia</code></pre>
+  <p style="margin-top:0.8em; font-size:0.7em; color:#aaa;">Los agentes se activan automáticamente según la intención detectada en cada mensaje del usuario.</p>
+</section>
+
+<!-- ==================== CLOSING ==================== -->
+<section data-background-gradient="linear-gradient(135deg, #0a0a23, #1a1a3e)">
+  <div class="logo">L<span>i</span>a</div>
+  <p class="subtitle"><strong>L</strong>ecturas para <strong>I</strong><strong>a</strong></p>
+  <p style="color:#aaa; font-size:0.9em; margin-top:1.5em;">Asistente Educativo Personalizado</p>
+  <div style="display:flex; gap:1.5em; justify-content:center; margin-top:1em; font-size:0.7em; color:#888;">
+    <div>📖 Wikipedia</div>
+    <div>🐙 GitHub</div>
+    <div>📝 Ejercicios</div>
+    <div>✅ Corrector</div>
+    <div>🔗 URLs</div>
+    <div>🎯 Temas</div>
+  </div>
+  <p style="color:#555; font-size:0.6em; margin-top:2em;">Construido con Google ADK · FAISS · Sentence‑Transformers · MCP</p>
+</section>
+
+</div>
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="dist/plugin/notes.js"></script>
+<script src="dist/plugin/markdown.js"></script>
+<script src="dist/plugin/highlight.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    width: 1100,
+    height: 720,
+    margin: 0.08,
+    plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+  });
+</script>
+</body>
 </html>

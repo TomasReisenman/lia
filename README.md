@@ -17,3 +17,9 @@ HF_TOKEN=hf_your_token_here          # Solo para modelos que lo requieren
 FAISS_DIR=faiss_store                # FAISS store ruta local
 EMBED_MODEL=all-MiniLM-L6-v2         # Modelo Embedding
 ```
+
+
+## Presentación  
+
+Hay una presentación del proyecto en presentation/index.html . Se puede abrir con un 
+web browser luego de descargar el proyecto. 
