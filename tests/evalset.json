@@ -34,6 +34,46 @@
         "user_id": "user 1",
         "state": {}
       }
+    },
+    {
+      "eval_id": "case_2",
+      "conversation": [
+        {
+          "invocation_id": "inv_2",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "estudiar entropia cruzada"
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "la entropía cruzada mide la diferencia o distancia entre dos distribuciones de probabilidad"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "transfer_to_agent",
+		"args": {
+		    "agent_name": "wikipedia_agent"
+		}        
+	      }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "lia",
+        "user_id": "user 2",
+        "state": {}
+      }
     }
   ]
 }
