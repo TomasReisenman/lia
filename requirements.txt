@@ -5,3 +5,5 @@ numpy>=1.26.0
 python-dotenv>=1.0.0
 easyocr>=1.7
 wikipedia-mcp>=2.0.0
+google-adk[eval]
+google-adk[mcp]

@@ -23,3 +23,8 @@ EMBED_MODEL=all-MiniLM-L6-v2         # Modelo Embedding
 
 Hay una presentación del proyecto en presentation/index.html . Se puede abrir con un 
 web browser luego de descargar el proyecto. 
+
+## Testing 
+
+Correr dentro de la carpeta destino
+adk eval . tests/evalset.json --config_file_path=tests/test_config.json

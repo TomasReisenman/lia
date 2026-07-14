@@ -17,7 +17,7 @@ from .sub_agents.url_reader_agent import url_reader_agent
 FORBIDDEN_TERMS: list[str] = [
     "hack", "hacking", "crack", "phishing", "malware",
     "ransomware", "keylogger", "exploit", "vulnerabilidad",
-    "inyeccion sql", "sql injection",
+    "inyeccion sql", "inyección sql", "sql injection",
 ]
 
 
