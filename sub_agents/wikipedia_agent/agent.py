@@ -19,6 +19,7 @@ wikipedia_agent = Agent(
                     command="wikipedia-mcp",
                     args=["--language", "es"],
                 ),
+            timeout=30.0,
             ),
         )
     ],
