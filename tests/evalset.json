@@ -74,6 +74,46 @@
         "user_id": "user 2",
         "state": {}
       }
+    },
+    {
+      "eval_id": "case_3",
+      "conversation": [
+        {
+          "invocation_id": "inv_3",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "sugerir temas"
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "Sistemas de ecuaciones lineales,Producto punto, Regresión lineal,Overfitting y underfitting"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "transfer_to_agent",
+		"args": {
+		    "agent_name": "study_advisor_agent"
+		}        
+	      }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "lia",
+        "user_id": "user 3",
+        "state": {}
+      }
     }
   ]
 }
