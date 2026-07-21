@@ -13,18 +13,27 @@ pip install google-adk
 ## Entorno (`.env`)
 
 ```
-HF_TOKEN=hf_your_token_here          # Solo para modelos que lo requieren
-FAISS_DIR=faiss_store                # FAISS store ruta local
-EMBED_MODEL=all-MiniLM-L6-v2         # Modelo Embedding
+GOOGLE_API_KEY=your_api_key          # API key de Google AI Studio (requerido)
+GOOGLE_GENAI_USE_VERTEXAI=0          # Usar AI Studio (0) o Vertex AI (1)
+GH_TOKEN=ghp_...                     # Token de GitHub (requerido para github_agent)
+HF_TOKEN=hf_...                      # Token de HuggingFace (requerido para descargar modelos)
 ```
 
 
-## Presentación  
+## Presentación
 
-Hay una presentación del proyecto en presentation/index.html . Se puede abrir con un 
-web browser luego de descargar el proyecto. 
+Presentación Reveal.js en `docs/index.html` (GitHub Pages). Usa CDN de Reveal.js, no requiere archivos locales.
 
 ## Testing 
 
-Correr dentro de la carpeta destino
+Correr dentro de la carpeta lia
+
+```
 adk eval . tests/evalset.json --config_file_path=tests/test_config.json
+```
+
+Utiliza LLM as a judge 
+
+# Levantar 
+
+Correr adk web --port 8000 en una carpeta que contenga la carpeta de lia y elegir lia de la lista de app

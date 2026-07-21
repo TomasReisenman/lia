@@ -114,6 +114,86 @@
         "user_id": "user 3",
         "state": {}
       }
+    },
+    {
+      "eval_id": "case_4",
+      "conversation": [
+        {
+          "invocation_id": "inv_4",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "generar ejercicios de álgebra lineal"
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "ejercicios de álgebra lineal"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "transfer_to_agent",
+                "args": {
+                    "agent_name": "exercises_agent"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "lia",
+        "user_id": "user 4",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_5",
+      "conversation": [
+        {
+          "invocation_id": "inv_5",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "corregir mis ejercicios de derivadas"
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "corrección de ejercicios"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "transfer_to_agent",
+                "args": {
+                    "agent_name": "corrector_agent"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "lia",
+        "user_id": "user 5",
+        "state": {}
+      }
     }
   ]
 }

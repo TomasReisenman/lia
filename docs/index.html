@@ -99,18 +99,38 @@
   <section>
     <h2 class="slide-title">Arquitectura General</h2>
     <div class="diagram-box" style="padding:0.4em 0.6em;">
-      <div class="diagram-node root" style="min-width:120px; margin-bottom:0.3em; border-color:#ffb74d;">
+      <!-- Root Agent -->
+      <div class="diagram-node root" style="min-width:120px; border-color:#ffb74d;">
         <strong style="color:#ffb74d; font-size:0.75em;">🧠 Root Agent</strong><br/>
         <span style="color:#aaa; font-size:0.5em;">Orquestador</span>
       </div>
+      <!-- Arrows down -->
+      <div style="display:flex; justify-content:center; gap:2.2em; margin:0.15em 0;">
+        <span class="diagram-arrow" style="font-size:0.8em;">↓</span>
+        <span class="diagram-arrow" style="font-size:0.8em;">↓</span>
+        <span class="diagram-arrow" style="font-size:0.8em;">↓</span>
+        <span class="diagram-arrow" style="font-size:0.8em;">↓</span>
+        <span class="diagram-arrow" style="font-size:0.8em;">↓</span>
+      </div>
+      <!-- Sub-agents row (no Corrector) -->
       <div style="display:flex; flex-wrap:wrap; gap:0.3em; justify-content:center;">
         <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">📖 Wikipedia</div>
         <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">🐙 GitHub</div>
         <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">📝 Ejercicios</div>
-        <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">✅ Corrector</div>
         <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">🔗 URL Reader</div>
         <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">🎯 Study Advisor</div>
       </div>
+      <!-- Ejercicios → Corrector arrow with memory label -->
+      <div style="display:flex; align-items:center; justify-content:center; gap:0.3em; margin-top:0.3em;">
+        <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">📝 Ejercicios</div>
+        <div style="display:flex; flex-direction:column; align-items:center;">
+          <span class="diagram-arrow" style="font-size:0.8em;">→</span>
+          <span class="tag tag-ses" style="font-size:0.5em;">session state</span>
+        </div>
+        <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em; border-color:#ce93d8;">✅ Corrector</div>
+      </div>
+      <p style="color:#888; font-size:0.45em; margin-top:0.2em;">save_exercise_data() → ToolContext.state → get_exercise_data()</p>
+      <!-- Tags -->
       <div style="display:flex; gap:0.8em; margin-top:0.3em; flex-wrap:wrap; justify-content:center; font-size:0.5em;">
         <span><span class="tag tag-mcp" style="font-size:0.7em;">MCP</span> Wikipedia · GitHub</span>
         <span><span class="tag tag-rag" style="font-size:0.7em;">RAG</span> FAISS + Sentence‑Transformers</span>
@@ -430,7 +450,7 @@ def save_summary(url, title, summary, tool_context):
       <h4>study_advisor_agent</h4>
       <p style="font-size:0.75em; color:#aaa;">RAG · FAISS · Recomendación de temas</p>
     </div>
-    <p style="font-size:0.75em;">Recomienda temas de estudio en IA/ML usando búsqueda semántica sobre <code>info/study_themes.json</code> (20 temas indexados).</p>
+    <p style="font-size:0.75em;">Recomienda temas de estudio en IA/ML usando <strong>RAG</strong> (Retrieval-Augmented Generation): convierte la query del usuario en embeddings con <code>SentenceTransformer</code>, busca los temas más similares en el índice FAISS, y genera la respuesta con el LLM a partir de los resultados recuperados.</p>
     <div style="display:flex; flex-wrap:wrap; gap:0.3em; margin:0.5em 0; justify-content:center; font-size:0.6em;">
       <span class="tag" style="background:#1565c0;">🧠 Redes Neuronales</span>
       <span class="tag" style="background:#1565c0;">📊 Aprendizaje Supervisado</span>
@@ -558,20 +578,52 @@ def save_summary(url, title, summary, tool_context):
 
 <!-- ==================== HOW TO RUN ==================== -->
 <section>
-  <h2 class="slide-title">🚀 Cómo ejecutar</h2>
-  <pre class="code"><code class="bash"># 1. Instalar dependencias
+  <section>
+    <h2 class="slide-title">🚀 Cómo ejecutar</h2>
+    <pre class="code"><code class="bash"># 1. Clonar e instalar
+git clone https://github.com/.../lia.git
+cd lia
 pip install -r requirements.txt
+pip install google-adk
 
-# 2. Configurar variables de entorno (.env)
-GH_TOKEN=ghp_...
-HF_TOKEN=hf_...
+# 2. Configurar .env (ver siguiente filmina)
 
-# 3. Inicializar FAISS (si no existe)
+# 3. Inicializar FAISS
 python scripts/embed.py info/
 
-# 4. Ejecutar la aplicación adk
+# 4. Ejecutar
 adk run lia</code></pre>
-  <p style="margin-top:0.8em; font-size:0.7em; color:#aaa;">Los agentes se activan automáticamente según la intención detectada en cada mensaje del usuario.</p>
+    <p style="margin-top:0.8em; font-size:0.65em; color:#aaa;">Los agentes se activan automáticamente según la intención del usuario.</p>
+  </section>
+
+  <section>
+    <h3 class="slide-title">Variables de entorno (`.env`)</h3>
+    <div class="columns" style="gap:0.5em; margin-top:0.3em;">
+      <div>
+        <div class="agent-card" style="border-left-color:#4fc3f7;">
+          <h4 style="color:#4fc3f7;">Google AI Studio</h4>
+          <p style="font-size:0.6em; color:#ccc;">Requerido para el modelo Gemini</p>
+        </div>
+        <pre class="code" style="margin-top:0.3em;"><code class="bash">GOOGLE_API_KEY=tu_api_key
+GOOGLE_GENAI_USE_VERTEXAI=0</code></pre>
+      </div>
+      <div>
+        <div class="agent-card" style="border-left-color:#81c784;">
+          <h4 style="color:#81c784;">GitHub MCP</h4>
+          <p style="font-size:0.6em; color:#ccc;">Requerido para github_agent</p>
+        </div>
+        <pre class="code" style="margin-top:0.3em;"><code class="bash">GH_TOKEN=ghp_...</code></pre>
+      </div>
+    </div>
+    <div style="margin-top:0.4em;">
+      <div class="agent-card" style="border-left-color:#ffb74d;">
+        <h4 style="color:#ffb74d;">HuggingFace</h4>
+        <p style="font-size:0.6em; color:#ccc;">Requerido para descargar sentence-transformers</p>
+      </div>
+      <pre class="code" style="margin-top:0.3em;"><code class="bash">HF_TOKEN=hf_...</code></pre>
+    </div>
+    <p style="font-size:0.55em; color:#888; margin-top:0.4em;">Todas las variables se cargan automáticamente via <code>python-dotenv</code> al iniciar la app.</p>
+  </section>
 </section>
 
 <!-- ==================== CLOSING ==================== -->

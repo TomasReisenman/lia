@@ -24,7 +24,7 @@ FORBIDDEN_TERMS: list[str] = [
 def block_disallowed_content(
     callback_context: Context, llm_request: LlmRequest
 ) -> Optional[LlmResponse]:
-    last_text = llm_request.contents[-1].parts[0].text if llm_request.contents else ""
+    last_text = (llm_request.contents[-1].parts[0].text or "") if llm_request.contents else ""
     last_text = last_text.lower()
     for term in FORBIDDEN_TERMS:
         if term in last_text:
