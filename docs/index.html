@@ -75,67 +75,89 @@
 
 <!-- ==================== WHAT IS LIA ==================== -->
 <section>
-  <h2 class="slide-title">¿Qué es Lia?</h2>
-  <p style="font-size:0.65em;">Sistema multi-agente que combina Wikipedia, GitHub, URLs, ejercicios y recomendación de temas para aprendizaje de IA/ML.</p>
-  <div class="diagram-box" style="margin-top:0.3em;">
-    <div style="font-size:0.85em; color:#90caf9;">Flujo de conversación</div>
-    <div class="diagram-row" style="gap:0.3em;">
-      <div class="diagram-node root" style="border-color:#ffb74d; min-width:60px;">🧑 Usuario</div>
-      <div class="diagram-arrow" style="font-size:0.9em;">→</div>
-      <div class="diagram-node root" style="border-color:#ffb74d; min-width:80px;">🤖 Root</div>
-      <div class="diagram-arrow" style="font-size:0.9em;">→</div>
-      <div class="diagram-node highlight" style="min-width:70px;">🔧 Sub-agente</div>
-      <div class="diagram-arrow" style="font-size:0.9em;">→</div>
-      <div class="diagram-node root" style="border-color:#ffb74d; min-width:80px;">🤖 Root</div>
-      <div class="diagram-arrow" style="font-size:0.9em;">→</div>
-      <div class="diagram-node highlight" style="min-width:70px;">🔧 Sub-agente</div>
+  <section>
+    <h2 class="slide-title">¿Qué es Lia?</h2>
+    <p style="font-size:0.6em; line-height:1.5; max-width:900px; margin:0 auto;">
+      <strong>Lia</strong> (<strong>L</strong>ecturas para <strong>I</strong><strong>a</strong>) es un <strong>Asistente Educativo Personalizado</strong> construido con una arquitectura multi-agente. Está diseñado para acompañar a estudiantes en su proceso de aprendizaje de Inteligencia Artificial y Machine Learning, ofreciendo una experiencia interactiva, adaptativa y completa.
+    </p>
+    <p style="font-size:0.55em; line-height:1.5; max-width:900px; margin:0.8em auto 0; color:#ccc;">
+      En lugar de ser un simple chatbot que responde preguntas, Lia <strong>delega cada tarea a un agente especializado</strong>. Esto permite que cada componente del sistema esté optimizado para una función específica: buscar información en Wikipedia, encontrar proyectos en GitHub, generar ejercicios prácticos, corregir respuestas, leer artículos de la web o recomendar qué estudiar según el nivel del estudiante.
+    </p>
+  </section>
+
+  <section>
+    <h3 class="slide-title">¿Cómo ayuda a un estudiante?</h3>
+    <div class="columns" style="gap:0.4em; font-size:0.55em;">
+      <div>
+        <div class="agent-card" style="border-left-color:#4fc3f7;">
+          <h4 style="color:#4fc3f7;">📚 Aprender conceptos</h4>
+          <p>Pide "explícame redes neuronales" y Lia busca en Wikipedia, resume en español y adapta la explicación al nivel del estudiante.</p>
+        </div>
+        <div class="agent-card" style="border-left-color:#81c784; margin-top:0.3em;">
+          <h4 style="color:#81c784;">📝 Practicar con ejercicios</h4>
+          <p>Genera ejercicios de opción múltiple personalizados. El estudiante responde y Lia corrige, explicando por qué cada respuesta es correcta o incorrecta.</p>
+        </div>
+      </div>
+      <div>
+        <div class="agent-card" style="border-left-color:#ffb74d;">
+          <h4 style="color:#ffb74d;">🎯 Planificar el estudio</h4>
+          <p>Recomienda temas de IA/ML según el nivel y los intereses del estudiante, usando búsqueda semántica sobre una base de 20 temas indexados.</p>
+        </div>
+        <div class="agent-card" style="border-left-color:#ce93d8; margin-top:0.3em;">
+          <h4 style="color:#ce93d8;">🔗 Explorar contenido web</h4>
+          <p>Comparte un link de un artículo o tutorial y Lia lo lee, resume y genera ejercicios basados en ese contenido específico.</p>
+        </div>
+      </div>
     </div>
-    <p style="color:#666; font-size:0.5em; margin-top:0.2em;">Root Agent orquesta y delega según la intención del usuario</p>
-  </div>
+  </section>
+
+  <section>
+    <h3 class="slide-title">Flujo de conversación</h4>
+    <div class="diagram-box" style="margin-top:0.3em;">
+      <div class="diagram-row" style="gap:0.3em;">
+        <div class="diagram-node root" style="border-color:#ffb74d; min-width:60px;">Usuario</div>
+        <div class="diagram-arrow" style="font-size:0.9em;">→</div>
+        <div class="diagram-node root" style="border-color:#ffb74d; min-width:80px;">Root</div>
+        <div class="diagram-arrow" style="font-size:0.9em;">→</div>
+        <div class="diagram-node highlight" style="min-width:70px;">Sub-agente</div>
+        <div class="diagram-arrow" style="font-size:0.9em;">→</div>
+        <div class="diagram-node root" style="border-color:#ffb74d; min-width:80px;">Root</div>
+        <div class="diagram-arrow" style="font-size:0.9em;">→</div>
+        <div class="diagram-node highlight" style="min-width:70px;">Sub-agente</div>
+      </div>
+      <p style="color:#666; font-size:0.5em; margin-top:0.2em;">Root Agent orquesta y delega según la intención del usuario</p>
+    </div>
+  </section>
 </section>
 
 <!-- ==================== ARCHITECTURE OVERVIEW ==================== -->
 <section>
   <section>
     <h2 class="slide-title">Arquitectura General</h2>
-    <div class="diagram-box" style="padding:0.4em 0.6em;">
-      <!-- Root Agent -->
-      <div class="diagram-node root" style="min-width:120px; border-color:#ffb74d;">
-        <strong style="color:#ffb74d; font-size:0.75em;">🧠 Root Agent</strong><br/>
-        <span style="color:#aaa; font-size:0.5em;">Orquestador</span>
-      </div>
-      <!-- Arrows down -->
-      <div style="display:flex; justify-content:center; gap:2.2em; margin:0.15em 0;">
-        <span class="diagram-arrow" style="font-size:0.8em;">↓</span>
-        <span class="diagram-arrow" style="font-size:0.8em;">↓</span>
-        <span class="diagram-arrow" style="font-size:0.8em;">↓</span>
-        <span class="diagram-arrow" style="font-size:0.8em;">↓</span>
-        <span class="diagram-arrow" style="font-size:0.8em;">↓</span>
-      </div>
-      <!-- Sub-agents row (no Corrector) -->
-      <div style="display:flex; flex-wrap:wrap; gap:0.3em; justify-content:center;">
-        <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">📖 Wikipedia</div>
-        <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">🐙 GitHub</div>
-        <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">📝 Ejercicios</div>
-        <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">🔗 URL Reader</div>
-        <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">🎯 Study Advisor</div>
-      </div>
-      <!-- Ejercicios → Corrector arrow with memory label -->
-      <div style="display:flex; align-items:center; justify-content:center; gap:0.3em; margin-top:0.3em;">
-        <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em;">📝 Ejercicios</div>
-        <div style="display:flex; flex-direction:column; align-items:center;">
-          <span class="diagram-arrow" style="font-size:0.8em;">→</span>
-          <span class="tag tag-ses" style="font-size:0.5em;">session state</span>
-        </div>
-        <div class="diagram-node highlight" style="min-width:60px; font-size:0.55em; border-color:#ce93d8;">✅ Corrector</div>
-      </div>
-      <p style="color:#888; font-size:0.45em; margin-top:0.2em;">save_exercise_data() → ToolContext.state → get_exercise_data()</p>
-      <!-- Tags -->
-      <div style="display:flex; gap:0.8em; margin-top:0.3em; flex-wrap:wrap; justify-content:center; font-size:0.5em;">
-        <span><span class="tag tag-mcp" style="font-size:0.7em;">MCP</span> Wikipedia · GitHub</span>
-        <span><span class="tag tag-rag" style="font-size:0.7em;">RAG</span> FAISS + Sentence‑Transformers</span>
-        <span><span class="tag tag-ses" style="font-size:0.7em;">Estado</span> ToolContext session</span>
-      </div>
+    <div class="mermaid" style="font-size:0.85em; transform:scale(0.95);">
+flowchart TD
+    root["🧠 Root Agent\nOrquestador"]
+
+    root -->|"delega"| wiki["📖 Wikipedia"]
+    root -->|"delega"| github["🐙 GitHub"]
+    root -->|"delega"| exercises["📝 Ejercicios"]
+    root -->|"delega"| url["🔗 URL Reader"]
+    root -->|"delega"| advisor["🎯 Study Advisor"]
+
+    exercises -->|"session state\nsave_exercise_data()\nget_exercise_data()"| corrector["✅ Corrector"]
+
+    style root fill:#2a1f0a,stroke:#ffb74d,color:#fff
+    style wiki fill:#16213e,stroke:#4fc3f7,color:#fff
+    style github fill:#16213e,stroke:#4fc3f7,color:#fff
+    style exercises fill:#16213e,stroke:#81c784,color:#fff
+    style url fill:#16213e,stroke:#4fc3f7,color:#fff
+    style advisor fill:#16213e,stroke:#ffb74d,color:#fff
+    style corrector fill:#16213e,stroke:#ce93d8,color:#fff
+    </div>
+    <div style="display:flex; gap:0.8em; margin-top:0.3em; flex-wrap:wrap; justify-content:center; font-size:0.5em;">
+      <span><span class="tag tag-mcp" style="font-size:0.7em;">MCP</span> Wikipedia · GitHub</span>
+      <span><span class="tag tag-rag" style="font-size:0.7em;">RAG</span> FAISS + Sentence‑Transformers</span>
+      <span><span class="tag tag-ses" style="font-size:0.7em;">Estado</span> ToolContext session</span>
     </div>
   </section>
 
@@ -494,25 +516,45 @@ def save_summary(url, title, summary, tool_context):
 <section>
   <section>
     <h2 class="slide-title" style="margin-bottom:0.15em;">🔄 Flujo Completo</h2>
-    <div class="diagram-box" style="padding:0.25em 0.4em;">
-      <div class="diagram-row" style="gap:0.2em;">
-        <div class="diagram-node root" style="min-width:55px; border-color:#ffb74d;">🧑 Usuario</div>
-        <div class="diagram-arrow" style="font-size:0.8em;">⇄</div>
-        <div class="diagram-node root" style="min-width:70px; border-color:#ffb74d; background:#2a1f0a;">🤖 Root</div>
-      </div>
-      <div style="display:flex; flex-wrap:wrap; gap:0.2em; justify-content:center; margin-top:0.2em;">
-        <div class="diagram-node highlight" style="min-width:60px; font-size:0.45em;">📖 Wikipedia<br/><span class="tag tag-mcp" style="font-size:0.7em;">MCP</span></div>
-        <div class="diagram-node highlight" style="min-width:60px; font-size:0.45em;">🐙 GitHub<br/><span class="tag tag-mcp" style="font-size:0.7em;">MCP</span></div>
-        <div class="diagram-node highlight" style="min-width:60px; font-size:0.45em;">📝 Ejercicios<br/><span class="tag tag-rag" style="font-size:0.7em;">RAG</span></div>
-        <div class="diagram-node highlight" style="min-width:60px; font-size:0.45em;">✅ Corrector<br/><span class="tag tag-ses" style="font-size:0.7em;">Estado</span></div>
-        <div class="diagram-node highlight" style="min-width:60px; font-size:0.45em;">🔗 URL Reader<br/><span class="tag tag-tool" style="font-size:0.7em;">HTTP</span></div>
-        <div class="diagram-node highlight" style="min-width:60px; font-size:0.45em;">🎯 Study Advisor<br/><span class="tag tag-rag" style="font-size:0.7em;">RAG</span></div>
-      </div>
-      <div style="display:flex; gap:0.5em; margin-top:0.2em; font-size:0.4em; color:#888; flex-wrap:wrap; justify-content:center;">
-        <span>↕️ Session State (ToolContext)</span>
-        <span>↕️ FAISS Index (22 vectores)</span>
-        <span>↕️ MCP Servers (stdio · HTTP)</span>
-      </div>
+    <div class="mermaid" style="font-size:0.7em;">
+flowchart LR
+    user["Usuario"]
+
+    user -->|"mensajes"| root["Root Agent"]
+    root -->|"respuestas"| user
+
+    root -->|"MCP stdio"| wiki["Wikipedia"]
+    root -->|"MCP HTTP"| github["GitHub"]
+    root -->|"RAG + State"| exercises["Ejercicios"]
+    root -->|"HTTP + State"| url["URL Reader"]
+    root -->|"RAG"| advisor["Study Advisor"]
+
+    exercises -->|"session state"| corrector["Corrector"]
+
+    subgraph shared ["Infraestructura Compartida"]
+        faiss["FAISS 22 vectores"]
+        state["Session State ToolContext"]
+        mcp["MCP Servers stdio HTTP"]
+    end
+
+    exercises -.-> faiss
+    advisor -.-> faiss
+    exercises -.-> state
+    corrector -.-> state
+    url -.-> state
+
+    style root fill:#2a1f0a,stroke:#ffb74d,color:#fff
+    style user fill:#333,stroke:#888,color:#fff
+    style wiki fill:#16213e,stroke:#4fc3f7,color:#fff
+    style github fill:#16213e,stroke:#4fc3f7,color:#fff
+    style exercises fill:#16213e,stroke:#81c784,color:#fff
+    style url fill:#16213e,stroke:#4fc3f7,color:#fff
+    style advisor fill:#16213e,stroke:#ffb74d,color:#fff
+    style corrector fill:#16213e,stroke:#ce93d8,color:#fff
+    style shared fill:#1a1a2e,stroke:#444,color:#fff
+    style faiss fill:#0d1b2a,stroke:#1565c0,color:#fff
+    style state fill:#0d1b2a,stroke:#6a1b9a,color:#fff
+    style mcp fill:#0d1b2a,stroke:#2e7d32,color:#fff
     </div>
   </section>
 
@@ -626,6 +668,164 @@ GOOGLE_GENAI_USE_VERTEXAI=0</code></pre>
   </section>
 </section>
 
+<!-- ==================== GUARDRAIL ==================== -->
+<section>
+  <section>
+    <h2 class="slide-title">🛡️ Guardrail — before_model_callback</h2>
+    <p style="font-size:0.65em; margin-bottom:0.3em;">Filtro de contenido implementado como <strong>callback</strong> que se ejecuta antes de cada request al LLM. Bloquea mensajes que contienen términos prohibidos.</p>
+    <div class="columns" style="gap:0.4em;">
+      <div>
+        <div class="agent-card" style="border-left-color:#ef5350;">
+          <h4 style="color:#ef5350;">FORBIDDEN_TERMS</h4>
+          <p style="font-size:0.6em; color:#ccc;">Lista de términos bloqueados</p>
+        </div>
+        <pre class="code" style="margin-top:0.3em;"><code class="python">FORBIDDEN_TERMS = [
+    "hack", "hacking", "crack",
+    "phishing", "malware",
+    "ransomware", "keylogger",
+    "exploit", "vulnerabilidad",
+    "inyeccion sql", "sql injection",
+]</code></pre>
+      </div>
+      <div>
+        <div class="agent-card" style="border-left-color:#ffb74d;">
+          <h4 style="color:#ffb74d;">block_disallowed_content()</h4>
+          <p style="font-size:0.6em; color:#ccc;">Callback registrado en root_agent</p>
+        </div>
+        <pre class="code" style="margin-top:0.3em;"><code class="python">def block_disallowed_content(
+    callback_context, llm_request
+):
+    last_text = llm_request.contents[-1] \
+        .parts[0].text.lower()
+    for term in FORBIDDEN_TERMS:
+        if term in last_text:
+            return LlmResponse(content=
+                "Lo siento, no puedo ayudar")
+    return None  # permitir</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3 class="slide-title">Flujo del Guardrail</h3>
+    <div class="mermaid" style="font-size:0.85em;">
+flowchart TD
+    user["Usuario envia mensaje"]
+    callback["before_model_callback\nblock_disallowed_content()"]
+    check{"Termino en\nFORBIDDEN_TERMS?"}
+    block["LlmResponse\n'Lo siento, no puedo ayudar'"]
+    llm["Gemini 3.1 Flash Lite\nprocesa el mensaje"]
+    sub["Delega a sub-agente"]
+
+    user --> callback
+    callback --> check
+    check -->|"SI - encontrado"| block
+    check -->|"NO - limpio"| llm
+    llm --> sub
+
+    style user fill:#333,stroke:#888,color:#fff
+    style callback fill:#2a1f0a,stroke:#ffb74d,color:#fff
+    style check fill:#16213e,stroke:#ef5350,color:#fff
+    style block fill:#3e1a1a,stroke:#ef5350,color:#fff
+    style llm fill:#16213e,stroke:#4fc3f7,color:#fff
+    style sub fill:#16213e,stroke:#81c784,color:#fff
+    </div>
+    <p style="font-size:0.55em; color:#888; margin-top:0.3em;">El callback retorna <code>None</code> para permitir, o <code>LlmResponse</code> para bloquear. Cada bloqueo incrementa <code>blocked_requests</code> en session state.</p>
+  </section>
+</section>
+
+<!-- ==================== TESTING - LLM AS JUDGE ==================== -->
+<section>
+  <section>
+    <h2 class="slide-title">🧪 Testing — LLM as Judge</h2>
+    <p style="font-size:0.65em; margin-bottom:0.3em;">Evaluación automatizada usando un LLM como juez para comparar respuestas esperadas vs reales.</p>
+    <pre class="code"><code class="bash">adk eval . tests/evalset.json --config_file_path=tests/test_config.json</code></pre>
+    <div class="columns" style="gap:0.4em; margin-top:0.4em;">
+      <div>
+        <div class="agent-card" style="border-left-color:#81c784;">
+          <h4 style="color:#81c784;">evalset.json</h4>
+          <p style="font-size:0.6em; color:#ccc;">5 casos de prueba con input y respuesta esperada</p>
+        </div>
+        <ul style="font-size:0.5em; margin:0.2em 0 0; line-height:1.4;">
+          <li><strong>case_1:</strong> Guardrail — "estudiar hacking"</li>
+          <li><strong>case_2:</strong> Delegación Wikipedia — "entropia cruzada"</li>
+          <li><strong>case_3:</strong> Delegación Study Advisor — "sugerir temas"</li>
+          <li><strong>case_4:</strong> Delegación Exercises — "ejercicios álgebra"</li>
+          <li><strong>case_5:</strong> Delegación Corrector — "corregir ejercicios"</li>
+        </ul>
+      </div>
+      <div>
+        <div class="agent-card" style="border-left-color:#ffb74d;">
+          <h4 style="color:#ffb74d;">test_config.json</h4>
+          <p style="font-size:0.6em; color:#ccc;">Configuración del juez LLM</p>
+        </div>
+        <pre class="code" style="margin-top:0.3em;"><code class="json">{
+  "criteria": {
+    "final_response_match_v2": {
+      "threshold": 0.8,
+      "judge_model_options": {
+        "judge_model": "gemini-3.1-flash-lite",
+        "num_samples": 2
+      }
+    }
+  }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3 class="slide-title">Cómo funciona LLM as Judge</h3>
+    <div class="mermaid" style="font-size:0.8em;">
+flowchart LR
+    evalset["evalset.json\ninput + respuesta esperada"]
+    config["test_config.json\nthreshold + judge model"]
+    evalset --> adk["adk eval"]
+    config --> adk
+    adk --> agent["Lia Agent\nrespuesta real"]
+    agent --> judge["LLM Judge\ngemini-3.1-flash-lite"]
+    evalset --> judge
+    judge --> score["Score 0.0 - 1.0\n>= 0.8 = PASS"]
+
+    style evalset fill:#16213e,stroke:#81c784,color:#fff
+    style config fill:#16213e,stroke:#ffb74d,color:#fff
+    style adk fill:#2a1f0a,stroke:#ffb74d,color:#fff
+    style agent fill:#16213e,stroke:#4fc3f7,color:#fff
+    style judge fill:#16213e,stroke:#ce93d8,color:#fff
+    style score fill:#0d1b2a,stroke:#81c784,color:#fff
+    </div>
+    <p style="font-size:0.55em; color:#888; margin-top:0.3em;">El juez compara semánticamente la respuesta real contra la esperada. No requiere match exacto.</p>
+  </section>
+</section>
+
+<!-- ==================== FUTURE WORK ==================== -->
+<section>
+  <h2 class="slide-title">🔮 Trabajo Futuro</h2>
+  <div class="columns" style="gap:0.6em; margin-top:0.3em;">
+    <div>
+      <div class="agent-card" style="border-left-color:#4fc3f7;">
+        <h4 style="color:#4fc3f7;">Métricas del Sistema Multi-Agente</h4>
+      </div>
+      <ul style="font-size:0.55em; margin:0.3em 0 0; line-height:1.6;">
+        <li><strong>TTFT</strong> — Time To First Token</li>
+        <li><strong>End-to-End Latency</strong> — Latencia total request → respuesta</li>
+        <li><strong>Tokens/s</strong> — Throughput de generación</li>
+        <li><strong>Cost/Req</strong> — Costo por request (tokens in + out)</li>
+        <li><strong>Tool Success Rate</strong> — % de tool calls exitosos</li>
+      </ul>
+    </div>
+    <div>
+      <div class="agent-card" style="border-left-color:#81c784;">
+        <h4 style="color:#81c784;">Observabilidad & Persistencia</h4>
+      </div>
+      <ul style="font-size:0.55em; margin:0.3em 0 0; line-height:1.6;">
+        <li><strong>OTEL Server</strong> — Conexión con OpenTelemetry para trazas y métricas distribuidas</li>
+        <li><strong>Base de datos</strong> — Almacenar historial de conversaciones, ejercicios creados, respuestas corregidas y progreso del usuario</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <!-- ==================== CLOSING ==================== -->
 <section data-background-gradient="linear-gradient(135deg, #0a0a23, #1a1a3e)">
   <div class="logo">L<span>i</span>a</div>
@@ -649,13 +849,45 @@ GOOGLE_GENAI_USE_VERTEXAI=0</code></pre>
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
 <script>
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'dark',
+    themeVariables: {
+      primaryColor: '#16213e',
+      primaryTextColor: '#fff',
+      primaryBorderColor: '#4fc3f7',
+      lineColor: '#64b5f6',
+      secondaryColor: '#1a1a2e',
+      tertiaryColor: '#0d1b2a',
+      fontFamily: 'monospace',
+    },
+  });
+
+  const rendered = new Set();
+
+  function renderMermaid() {
+    const slide = Reveal.getCurrentSlide();
+    if (!slide) return;
+    const el = slide.querySelector('.mermaid');
+    if (!el || rendered.has(el)) return;
+    const id = 'mermaid-' + Math.random().toString(36).slice(2, 8);
+    mermaid.render(id, el.textContent).then(({ svg }) => {
+      el.innerHTML = svg;
+      rendered.add(el);
+    });
+  }
+
   Reveal.initialize({
     hash: true,
     width: 1100,
     height: 720,
     margin: 0.08,
     plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+  }).then(() => {
+    renderMermaid();
+    Reveal.on('slidechanged', () => renderMermaid());
   });
 </script>
 </body>
