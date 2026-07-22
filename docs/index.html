@@ -734,6 +734,47 @@ flowchart TD
   </section>
 </section>
 
+<!-- ==================== METRICS ==================== -->
+<section>
+  <section>
+    <h2 class="slide-title">📊 Métricas — OpenTelemetry + Grafana</h2>
+    <p style="font-size:0.6em; line-height:1.5; max-width:850px; margin:0 auto;">
+      Se utilizó un stack <strong>Docker</strong> con <strong>Grafana</strong>, <strong>Prometheus</strong> y un servidor <strong>OTEL Collector</strong> (<code>grafana/otel-lgtm</code>) para capturar métricas en tiempo real del sistema multi-agente.
+    </p>
+    <pre class="code"><code class="bash">docker run --name local-otel-server -p 4317:4317 -p 4318:4318 -p 3000:3000 grafana/otel-lgtm:latest</code></pre>
+    <p style="font-size:0.5em; color:#888; margin-top:0.2em;">Antes de levantar ADK se exporta el endpoint:</p>
+    <pre class="code"><code class="bash">export OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4318"</code></pre>
+  </section>
+
+  <section>
+    <h3 class="slide-title">Métricas disponibles</h3>
+    <p style="font-size:0.55em; color:#aaa; margin-bottom:0.3em;">Tipos: <code>count</code>, <code>bucket</code>, <code>sum</code></p>
+    <div class="columns" style="gap:0.5em;">
+      <div>
+        <div class="agent-card" style="border-left-color:#4fc3f7;">
+          <h4 style="color:#4fc3f7;"><code>gen_ai_client_operation_duration_seconds</code></h4>
+          <p style="font-size:0.55em; color:#ccc;">Duración de cada operación del cliente LLM (request → response).</p>
+        </div>
+        <div class="agent-card" style="border-left-color:#81c784; margin-top:0.3em;">
+          <h4 style="color:#81c784;"><code>gen_ai_client_token_usage</code></h4>
+          <p style="font-size:0.55em; color:#ccc;">Cantidad de tokens consumidos (input y output) por cada request.</p>
+        </div>
+      </div>
+      <div>
+        <div class="agent-card" style="border-left-color:#ffb74d;">
+          <h4 style="color:#ffb74d;"><code>gen_ai_execute_tool_duration_seconds</code></h4>
+          <p style="font-size:0.55em; color:#ccc;">Tiempo de ejecución de cada tool call (MCP, FAISS, HTTP).</p>
+        </div>
+        <div class="agent-card" style="border-left-color:#ce93d8; margin-top:0.3em;">
+          <h4 style="color:#ce93d8;"><code>gen_ai_invoke_agent_duration_seconds</code></h4>
+          <p style="font-size:0.55em; color:#ccc;">Duración de la invocación de cada sub-agente (latencia por agente).</p>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:0.5em; color:#888; margin-top:0.3em;">Grafana en <code>localhost:3000</code> — dashboards preconfigurados para visualizar estas métricas.</p>
+  </section>
+</section>
+
 <!-- ==================== TESTING - LLM AS JUDGE ==================== -->
 <section>
   <section>
@@ -819,7 +860,7 @@ flowchart LR
         <h4 style="color:#81c784;">Observabilidad & Persistencia</h4>
       </div>
       <ul style="font-size:0.55em; margin:0.3em 0 0; line-height:1.6;">
-        <li><strong>OTEL Server</strong> — Conexión con OpenTelemetry para trazas y métricas distribuidas</li>
+        <li><strong>OTEL</strong> — Servidor OTEL en la nube para trazas y métricas distribuidas</li>
         <li><strong>Base de datos</strong> — Almacenar historial de conversaciones, ejercicios creados, respuestas corregidas y progreso del usuario</li>
       </ul>
     </div>

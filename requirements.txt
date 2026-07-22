@@ -7,3 +7,4 @@ easyocr>=1.7
 wikipedia-mcp>=2.0.0
 google-adk[eval]
 google-adk[mcp]
+opentelemetry-exporter-otlp==1.42.1
